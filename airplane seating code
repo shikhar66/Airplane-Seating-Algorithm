@@ -1,0 +1,64 @@
+def solve(arr,total):
+    ans = [[] for i in range(len(arr))]
+    total=total+1
+    for i in range(len(arr)):
+        ans[i] = [[-1 for j in range(arr[i][0])] for k in range(arr[i][1])]
+    #Window Seat
+    k=1
+    for j in range(max([len(i) for i in ans])):
+        for i in range(len(ans)):
+            if(j>=len(ans[i])):
+                continue
+            if(i!=0):
+                ans[i][j][0]=k
+                k+=1
+            if(total==k):
+                return ans
+            if(i != len(ans)-1):
+                ans[i][j][len(ans[i][j])-1]=k
+                k+=1
+                
+        if(total==k):
+            return ans
+    # print(ans)
+    #For Borders
+    for i in range(max([len(i) for i in ans])):
+        if(len(ans[0])>i):
+            ans[0][i][0] = k
+            k+=1
+        if(total==k):
+            return ans
+        if(len(ans[len(ans)-1])>i):
+            ans[len(ans)-1][i][len(ans[len(ans)-1][i])-1] = k
+            k+=1
+        if(total==k):
+            return ans
+
+
+    #For Remaining Blocks
+    for j in range(max([len(i) for i in ans])):
+        for i in range(len(ans)):
+            if(j>=len(ans[i])):
+                continue
+            for z in range(len(ans[i][0])):
+                if(ans[i][j][z]==-1):
+                    ans[i][j][z] = k
+                    k+=1
+                    if(k>=total):
+                        return ans
+            if(k==total):
+                return ans
+
+
+def user_input():
+    arr = [[3,2], [4,3], [2,3], [3,4]]
+    return arr
+
+arr = user_input()
+ans = [[] for i in range(len(arr))]
+total=30
+
+ans = solve(arr,total)
+
+#Answer
+print(ans)
